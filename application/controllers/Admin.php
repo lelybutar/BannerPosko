@@ -87,7 +87,7 @@ class Admin extends CI_Controller {
             if (!is_dir('./uploads/')) mkdir('./uploads/', 0777, TRUE);
             $this->load->library('upload', $config);
 
-            if ($this->upload->do_upload('gambar')) {
+            if ($this->upload->do_upload('video_file')) {
                 $file = $this->upload->data();
                 $this->db->insert('banner', [
                     'gambar'         => $file['file_name'],
@@ -155,7 +155,7 @@ class Admin extends CI_Controller {
             if (!is_dir('./uploads/')) mkdir('./uploads/', 0777, TRUE);
             $this->load->library('upload', $config);
 
-            if ($this->upload->do_upload('gambar')) {
+            if ($this->upload->do_upload('video_file')) {
                 if ($banner->gambar && file_exists('./uploads/' . $banner->gambar)) {
                     unlink('./uploads/' . $banner->gambar);
                 }
@@ -258,9 +258,7 @@ class Admin extends CI_Controller {
             $config = [
                 'upload_path'   => './uploads/profil/',
                 'allowed_types' => 'jpg|jpeg|png|webp',
-                'max_size'      => 2048,
-                'max_width'     => 500,
-                'max_height'    => 500,
+                'max_size'      => 5120,
                 'file_name'     => 'profil_' . $id . '_' . time(),
             ];
             $this->load->library('upload', $config);
