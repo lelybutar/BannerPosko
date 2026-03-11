@@ -19,11 +19,14 @@
             <span class="accordion-arrow" id="arrowDisplay">›</span>
         </div>
         <div class="nav-submenu" id="displaySubmenu">
+            <a class="nav-link" href="#" onclick="openModal('modalUpdateGambar'); return false;">
+                <span class="icon"></span> Update Media
+            </a>
             <a class="nav-link" href="#" onclick="openModal('modalDisplayRT'); return false;">
                 <span class="icon"></span> Running Text
             </a>
             <a class="nav-link" href="#" onclick="openModal('modalDisplayDT'); return false;">
-                <span class="icon"></span> Jam & Tanggal
+                <span class="icon"></span> Date & Time
             </a>
             <a class="nav-link" href="#" onclick="openModal('modalDisplayBar'); return false;">
                 <span class="icon"></span> Bottom Bar
@@ -31,16 +34,13 @@
             <a class="nav-link" href="#" onclick="openModal('modalDisplaySlider'); return false;">
                 <span class="icon"></span> Slider Interval
             </a>
-            <a class="nav-link" href="#" onclick="openModal('modalUpdateGambar'); return false;">
-                <span class="icon"></span> Update Media
-            </a>
         </div>
 
         <!-- Lainnya -->
         <div class="nav-label" style="margin-top:10px;">Lainnya</div>
         <a class="nav-link <?= (uri_string() == 'Admin/pengaturan') ? 'active' : '' ?>"
            href="<?= base_url('Admin/pengaturan') ?>">
-            <span class="icon"></span> Pengaturan
+            <span class="icon"></span> Profil Settings
         </a>
     </nav>
 

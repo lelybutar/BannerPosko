@@ -371,11 +371,11 @@
     </div>
 </div>
 
-<!-- ═══ Modal: Jam & Tanggal Settings ═══ -->
+<!-- ═══ Modal:  ═══ -->
 <div class="modal-overlay" id="modalDisplayDT">
     <div class="modal" style="max-width:520px;">
         <div class="modal-head">
-            <h3>Jam & Tanggal Settings</h3>
+            <h3>Date & Time</h3>
             <button class="modal-close" onclick="closeModal('modalDisplayDT')">✕</button>
         </div>
         <form action="<?= base_url('Admin/simpan_display_settings') ?>" method="POST">

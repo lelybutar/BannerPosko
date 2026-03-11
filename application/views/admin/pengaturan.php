@@ -71,11 +71,11 @@
             <span class="accordion-arrow" id="arrowDisplay">›</span>
         </div>
         <div class="nav-submenu" id="displaySubmenu">
+            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Update Media</a>
             <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Running Text</a>
             <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Jam & Tanggal</a>
             <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Bottom Bar</a>
             <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Slider Interval</a>
-            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Update Media</a>
         </div>
 
         <!-- Lainnya -->
