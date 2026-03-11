@@ -19,9 +19,9 @@ function toggleSidebar() {
     }
 }
 
-function toggleAccordion() {
-    document.getElementById('landingSubmenu').classList.toggle('show');
-    document.getElementById('accordionArrow').classList.toggle('open');
+function toggleAccordion(submenuId, arrowId) {
+    document.getElementById(submenuId).classList.toggle('show');
+    document.getElementById(arrowId).classList.toggle('open');
 }
 
 function openModal(id) { document.getElementById(id).classList.add('show'); }

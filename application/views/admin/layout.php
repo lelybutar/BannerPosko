@@ -312,172 +312,194 @@
 </div>
 
 <!-- ═══ Modal Running Text ═══ -->
-<div class="modal-overlay" id="modalRunningText">
-    <div class="modal">
+<!-- ═══ Modal Display Settings ═══ -->
+<?php $s = $settings ?? []; ?>
+
+<!-- ═══ Modal: Running Text Settings ═══ -->
+<div class="modal-overlay" id="modalDisplayRT">
+    <div class="modal" style="max-width:520px;">
         <div class="modal-head">
-            <h3>Update Running Text</h3>
-            <button class="modal-close" onclick="closeModal('modalRunningText')">✕</button>
+            <h3>Running Text Settings</h3>
+            <button class="modal-close" onclick="closeModal('modalDisplayRT')">✕</button>
         </div>
-        <form action="<?= base_url('Admin/simpan_running_text') ?>" method="POST">
+        <form action="<?= base_url('Admin/simpan_display_settings') ?>" method="POST">
             <div class="form-group">
-                <label class="form-label">Teks Berjalan</label>
-                <textarea name="running_text" class="form-input" rows="4" style="resize:vertical;"><?= isset($running_text) ? $running_text : '' ?></textarea>
+                <label class="form-label">Isi Teks Berjalan</label>
+                <textarea name="running_text" class="form-input" rows="3" style="resize:vertical;"><?= isset($running_text) ? htmlspecialchars($running_text) : '' ?></textarea>
                 <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Gunakan " | " sebagai pemisah antar teks</div>
             </div>
-            <button type="submit" class="btn-submit">Simpan Running Text</button>
+            <div class="form-group">
+                <label class="form-label">Font</label>
+                <select name="rt_font" class="form-select">
+                    <?php $rt_font = $s['rt_font'] ?? 'sans-serif'; ?>
+                    <option value="sans-serif" <?= $rt_font==="sans-serif"?"selected":"" ?>>Sans Serif (Default)</option>
+                    <option value="serif" <?= $rt_font==="serif"?"selected":"" ?>>Serif</option>
+                    <option value="monospace" <?= $rt_font==="monospace"?"selected":"" ?>>Monospace</option>
+                    <option value="Arial, sans-serif" <?= $rt_font==="Arial, sans-serif"?"selected":"" ?>>Arial</option>
+                    <option value="'Times New Roman', serif" <?= $rt_font==="'Times New Roman', serif"?"selected":"" ?>>Times New Roman</option>
+                    <option value="'Courier New', monospace" <?= $rt_font==="'Courier New', monospace"?"selected":"" ?>>Courier New</option>
+                    <option value="Georgia, serif" <?= $rt_font==="Georgia, serif"?"selected":"" ?>>Georgia</option>
+                    <option value="Impact, sans-serif" <?= $rt_font==="Impact, sans-serif"?"selected":"" ?>>Impact</option>
+                </select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="form-group">
+                    <label class="form-label">Ukuran Teks (px)</label>
+                    <input type="number" name="rt_size" class="form-input" value="<?= $s['rt_size'] ?? 24 ?>" min="10" max="100">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kecepatan Marquee (detik)</label>
+                    <input type="number" name="rt_speed" class="form-input" value="<?= $s['rt_speed'] ?? 20 ?>" min="5" max="120">
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Makin kecil = makin cepat</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Warna Teks</label>
+                <input type="color" name="rt_color" value="<?= $s['rt_color'] ?? '#ffffff' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
+            </div>
+            <!-- Simpan semua field lain sebagai hidden supaya tidak hilang -->
+            <input type="hidden" name="dt_font" value="<?= $s['dt_font'] ?? 'monospace' ?>">
+            <input type="hidden" name="dt_size" value="<?= $s['dt_size'] ?? 28 ?>">
+            <input type="hidden" name="dt_jam_type" value="<?= $s['dt_jam_type'] ?? 'HH:MM:SS' ?>">
+            <input type="hidden" name="dt_color" value="<?= $s['dt_color'] ?? '#ffffff' ?>">
+            <input type="hidden" name="bar_bg_type" value="<?= $s['bar_bg_type'] ?? 'solid' ?>">
+            <input type="hidden" name="bar_bg_color" value="<?= $s['bar_bg_color'] ?? '#000000' ?>">
+            <input type="hidden" name="bar_bg_blur" value="<?= $s['bar_bg_blur'] ?? 8 ?>">
+            <input type="hidden" name="slider_interval" value="<?= $s['slider_interval'] ?? 5 ?>">
+            <button type="submit" class="btn-submit">Simpan</button>
         </form>
     </div>
 </div>
 
-
-<!-- ═══ Modal Display Settings ═══ -->
-<div class="modal-overlay" id="modalDisplaySettings">
-    <div class="modal" style="max-width:620px; max-height:90vh; overflow-y:auto;">
+<!-- ═══ Modal: Jam & Tanggal Settings ═══ -->
+<div class="modal-overlay" id="modalDisplayDT">
+    <div class="modal" style="max-width:520px;">
         <div class="modal-head">
-            <h3>⚙️ Display Settings</h3>
-            <button class="modal-close" onclick="closeModal('modalDisplaySettings')">✕</button>
+            <h3>Jam & Tanggal Settings</h3>
+            <button class="modal-close" onclick="closeModal('modalDisplayDT')">✕</button>
         </div>
         <form action="<?= base_url('Admin/simpan_display_settings') ?>" method="POST">
-
-            <!-- TABS -->
-            <div style="display:flex;gap:4px;margin-bottom:20px;background:#f3f4f6;padding:5px;border-radius:10px;">
-                <button type="button" class="ds-tab active" onclick="switchDsTab('rt',this)" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;background:#1e3a5f;color:#fff;">Running Text</button>
-                <button type="button" class="ds-tab" onclick="switchDsTab('dt',this)" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;background:none;color:#666;">Jam & Tanggal</button>
-                <button type="button" class="ds-tab" onclick="switchDsTab('bar',this)" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;background:none;color:#666;">Bottom Bar</button>
-                <button type="button" class="ds-tab" onclick="switchDsTab('slide',this)" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;background:none;color:#666;">Slider</button>
+            <div class="form-group">
+                <label class="form-label">Format Jam</label>
+                <select name="dt_jam_type" class="form-select">
+                    <?php $dt_jam = $s['dt_jam_type'] ?? 'HH:MM:SS'; ?>
+                    <option value="HH:MM:SS" <?= $dt_jam==="HH:MM:SS"?"selected":"" ?>>HH:MM:SS (24 jam + detik)</option>
+                    <option value="HH:MM" <?= $dt_jam==="HH:MM"?"selected":"" ?>>HH:MM (24 jam, tanpa detik)</option>
+                    <option value="12H" <?= $dt_jam==="12H"?"selected":"" ?>>12 Jam (AM/PM)</option>
+                </select>
             </div>
-
-            <?php $s = $settings ?? []; ?>
-
-            <!-- ── TAB: RUNNING TEXT ── -->
-            <div class="ds-panel" id="ds-rt">
+            <div class="form-group">
+                <label class="form-label">Font</label>
+                <select name="dt_font" class="form-select">
+                    <?php $dt_font = $s['dt_font'] ?? 'monospace'; ?>
+                    <option value="monospace" <?= $dt_font==="monospace"?"selected":"" ?>>Monospace (Default)</option>
+                    <option value="sans-serif" <?= $dt_font==="sans-serif"?"selected":"" ?>>Sans Serif</option>
+                    <option value="serif" <?= $dt_font==="serif"?"selected":"" ?>>Serif</option>
+                    <option value="Arial, sans-serif" <?= $dt_font==="Arial, sans-serif"?"selected":"" ?>>Arial</option>
+                    <option value="'Courier New', monospace" <?= $dt_font==="'Courier New', monospace"?"selected":"" ?>>Courier New</option>
+                    <option value="Impact, sans-serif" <?= $dt_font==="Impact, sans-serif"?"selected":"" ?>>Impact</option>
+                </select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                 <div class="form-group">
-                    <label class="form-label">Font</label>
-                    <select name="rt_font" class="form-select">
-                        <?php $rt_font = $s['rt_font'] ?? 'sans-serif'; ?>
-                        <option value="sans-serif" <?= $rt_font==="sans-serif"?"selected":"" ?>>Sans Serif (Default)</option>
-                        <option value="serif" <?= $rt_font==="serif"?"selected":"" ?>>Serif</option>
-                        <option value="monospace" <?= $rt_font==="monospace"?"selected":"" ?>>Monospace</option>
-                        <option value="Arial, sans-serif" <?= $rt_font==="Arial, sans-serif"?"selected":"" ?>>Arial</option>
-                        <option value="'Times New Roman', serif" <?= $rt_font==="'Times New Roman', serif"?"selected":"" ?>>Times New Roman</option>
-                        <option value="'Courier New', monospace" <?= $rt_font==="'Courier New', monospace"?"selected":"" ?>>Courier New</option>
-                        <option value="Georgia, serif" <?= $rt_font==="Georgia, serif"?"selected":"" ?>>Georgia</option>
-                        <option value="Impact, sans-serif" <?= $rt_font==="Impact, sans-serif"?"selected":"" ?>>Impact</option>
-                    </select>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                    <div class="form-group">
-                        <label class="form-label">Ukuran Teks (px)</label>
-                        <input type="number" name="rt_size" class="form-input" value="<?= $s['rt_size'] ?? 24 ?>" min="10" max="100">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Kecepatan Marquee (detik)</label>
-                        <input type="number" name="rt_speed" class="form-input" value="<?= $s['rt_speed'] ?? 20 ?>" min="5" max="120">
-                        <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Makin kecil = makin cepat</div>
-                    </div>
+                    <label class="form-label">Ukuran Jam (px)</label>
+                    <input type="number" name="dt_size" class="form-input" value="<?= $s['dt_size'] ?? 28 ?>" min="12" max="100">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Warna Teks</label>
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <input type="color" name="rt_color" value="<?= $s['rt_color'] ?? '#ffffff' ?>" style="width:48px;height:36px;border:none;border-radius:6px;cursor:pointer;">
-                        <input type="text" id="rt_color_hex" class="form-input" value="<?= $s['rt_color'] ?? '#ffffff' ?>" style="width:120px;" oninput="syncColor('rt_color',this.value)">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- ── TAB: DATETIME ── -->
-            <div class="ds-panel" id="ds-dt" style="display:none;">
-                <div class="form-group">
-                    <label class="form-label">Format Jam</label>
-                    <select name="dt_jam_type" class="form-select">
-                        <?php $dt_jam = $s['dt_jam_type'] ?? 'HH:MM:SS'; ?>
-                        <option value="HH:MM:SS" <?= $dt_jam==="HH:MM:SS"?"selected":"" ?>>HH:MM:SS (24 jam + detik)</option>
-                        <option value="HH:MM" <?= $dt_jam==="HH:MM"?"selected":"" ?>>HH:MM (24 jam, tanpa detik)</option>
-                        <option value="12H" <?= $dt_jam==="12H"?"selected":"" ?>>12 Jam (AM/PM)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Font</label>
-                    <select name="dt_font" class="form-select">
-                        <?php $dt_font = $s['dt_font'] ?? 'monospace'; ?>
-                        <option value="monospace" <?= $dt_font==="monospace"?"selected":"" ?>>Monospace (Default)</option>
-                        <option value="sans-serif" <?= $dt_font==="sans-serif"?"selected":"" ?>>Sans Serif</option>
-                        <option value="serif" <?= $dt_font==="serif"?"selected":"" ?>>Serif</option>
-                        <option value="Arial, sans-serif" <?= $dt_font==="Arial, sans-serif"?"selected":"" ?>>Arial</option>
-                        <option value="'Courier New', monospace" <?= $dt_font==="'Courier New', monospace"?"selected":"" ?>>Courier New</option>
-                        <option value="Impact, sans-serif" <?= $dt_font==="Impact, sans-serif"?"selected":"" ?>>Impact</option>
-                    </select>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                    <div class="form-group">
-                        <label class="form-label">Ukuran Jam (px)</label>
-                        <input type="number" name="dt_size" class="form-input" value="<?= $s['dt_size'] ?? 28 ?>" min="12" max="100">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Warna Teks</label>
-                        <input type="color" name="dt_color" value="<?= $s['dt_color'] ?? '#ffffff' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- ── TAB: BOTTOM BAR ── -->
-            <div class="ds-panel" id="ds-bar" style="display:none;">
-                <div class="form-group">
-                    <label class="form-label">Background Bottom Bar</label>
-                    <select name="bar_bg_type" class="form-select" onchange="toggleBgOpts('bar',this.value)">
-                        <?php $bar_bg = $s['bar_bg_type'] ?? 'solid'; ?>
-                        <option value="solid" <?= $bar_bg==="solid"?"selected":"" ?>>Warna Solid</option>
-                        <option value="transparent" <?= $bar_bg==="transparent"?"selected":"" ?>>Transparan</option>
-                        <option value="blur" <?= $bar_bg==="blur"?"selected":"" ?>>Blur / Frosted Glass</option>
-                        <option value="gradient" <?= $bar_bg==="gradient"?"selected":"" ?>>Gradient dari bawah</option>
-                    </select>
-                </div>
-                <div id="bar_bg_opts" style="display:<?= in_array($s['bar_bg_type'] ?? 'solid', ['solid','blur','gradient']) ? 'grid' : 'none' ?>;grid-template-columns:1fr 1fr;gap:12px;">
-                    <div class="form-group">
-                        <label class="form-label">Warna BG</label>
-                        <input type="color" name="bar_bg_color" value="<?= $s['bar_bg_color'] ?? '#000000' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Intensitas Blur (px)</label>
-                        <input type="number" name="bar_bg_blur" class="form-input" value="<?= $s['bar_bg_blur'] ?? 8 ?>" min="0" max="40">
-                    </div>
+                    <input type="color" name="dt_color" value="<?= $s['dt_color'] ?? '#ffffff' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
                 </div>
             </div>
+            <input type="hidden" name="rt_font" value="<?= $s['rt_font'] ?? 'sans-serif' ?>">
+            <input type="hidden" name="rt_size" value="<?= $s['rt_size'] ?? 24 ?>">
+            <input type="hidden" name="rt_speed" value="<?= $s['rt_speed'] ?? 20 ?>">
+            <input type="hidden" name="rt_color" value="<?= $s['rt_color'] ?? '#ffffff' ?>">
+            <input type="hidden" name="bar_bg_type" value="<?= $s['bar_bg_type'] ?? 'solid' ?>">
+            <input type="hidden" name="bar_bg_color" value="<?= $s['bar_bg_color'] ?? '#000000' ?>">
+            <input type="hidden" name="bar_bg_blur" value="<?= $s['bar_bg_blur'] ?? 8 ?>">
+            <input type="hidden" name="slider_interval" value="<?= $s['slider_interval'] ?? 5 ?>">
+            <button type="submit" class="btn-submit">Simpan</button>
+        </form>
+    </div>
+</div>
 
-            <!-- ── TAB: SLIDER ── -->
-            <div class="ds-panel" id="ds-slide" style="display:none;">
+<!-- ═══ Modal: Bottom Bar Settings ═══ -->
+<div class="modal-overlay" id="modalDisplayBar">
+    <div class="modal" style="max-width:520px;">
+        <div class="modal-head">
+            <h3>Bottom Bar Settings</h3>
+            <button class="modal-close" onclick="closeModal('modalDisplayBar')">✕</button>
+        </div>
+        <form action="<?= base_url('Admin/simpan_display_settings') ?>" method="POST">
+            <div class="form-group">
+                <label class="form-label">Background Bottom Bar</label>
+                <select name="bar_bg_type" class="form-select" onchange="toggleBgOpts(this.value)">
+                    <?php $bar_bg = $s['bar_bg_type'] ?? 'solid'; ?>
+                    <option value="solid" <?= $bar_bg==="solid"?"selected":"" ?>>Warna Solid</option>
+                    <option value="transparent" <?= $bar_bg==="transparent"?"selected":"" ?>>Transparan</option>
+                    <option value="blur" <?= $bar_bg==="blur"?"selected":"" ?>>Blur / Frosted Glass</option>
+                    <option value="gradient" <?= $bar_bg==="gradient"?"selected":"" ?>>Gradient dari bawah</option>
+                </select>
+            </div>
+            <div id="bar_bg_opts" style="display:<?= in_array($s['bar_bg_type'] ?? 'solid', ['solid','blur','gradient']) ? 'grid' : 'none' ?>;grid-template-columns:1fr 1fr;gap:12px;">
                 <div class="form-group">
-                    <label class="form-label">Jarak Waktu Antar Slide (detik)</label>
-                    <input type="number" name="slider_interval" class="form-input" value="<?= $s['slider_interval'] ?? 5 ?>" min="1" max="300">
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
-                        Berlaku untuk banner bertipe Gambar dan URL. Banner Video otomatis pindah setelah video selesai.
-                    </div>
+                    <label class="form-label">Warna BG</label>
+                    <input type="color" name="bar_bg_color" value="<?= $s['bar_bg_color'] ?? '#000000' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Intensitas Blur (px)</label>
+                    <input type="number" name="bar_bg_blur" class="form-input" value="<?= $s['bar_bg_blur'] ?? 8 ?>" min="0" max="40">
                 </div>
             </div>
+            <input type="hidden" name="rt_font" value="<?= $s['rt_font'] ?? 'sans-serif' ?>">
+            <input type="hidden" name="rt_size" value="<?= $s['rt_size'] ?? 24 ?>">
+            <input type="hidden" name="rt_speed" value="<?= $s['rt_speed'] ?? 20 ?>">
+            <input type="hidden" name="rt_color" value="<?= $s['rt_color'] ?? '#ffffff' ?>">
+            <input type="hidden" name="dt_font" value="<?= $s['dt_font'] ?? 'monospace' ?>">
+            <input type="hidden" name="dt_size" value="<?= $s['dt_size'] ?? 28 ?>">
+            <input type="hidden" name="dt_jam_type" value="<?= $s['dt_jam_type'] ?? 'HH:MM:SS' ?>">
+            <input type="hidden" name="dt_color" value="<?= $s['dt_color'] ?? '#ffffff' ?>">
+            <input type="hidden" name="slider_interval" value="<?= $s['slider_interval'] ?? 5 ?>">
+            <button type="submit" class="btn-submit">Simpan</button>
+        </form>
+    </div>
+</div>
 
-            <button type="submit" class="btn-submit" style="margin-top:8px;">Simpan Pengaturan</button>
+<!-- ═══ Modal: Slider Interval Settings ═══ -->
+<div class="modal-overlay" id="modalDisplaySlider">
+    <div class="modal" style="max-width:520px;">
+        <div class="modal-head">
+            <h3>Slider Interval Settings</h3>
+            <button class="modal-close" onclick="closeModal('modalDisplaySlider')">✕</button>
+        </div>
+        <form action="<?= base_url('Admin/simpan_display_settings') ?>" method="POST">
+            <div class="form-group">
+                <label class="form-label">Jarak Waktu Antar Slide (detik)</label>
+                <input type="number" name="slider_interval" class="form-input" value="<?= $s['slider_interval'] ?? 5 ?>" min="1" max="300">
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
+                    Berlaku untuk banner bertipe Gambar dan URL. Banner Video otomatis pindah setelah video selesai.
+                </div>
+            </div>
+            <input type="hidden" name="rt_font" value="<?= $s['rt_font'] ?? 'sans-serif' ?>">
+            <input type="hidden" name="rt_size" value="<?= $s['rt_size'] ?? 24 ?>">
+            <input type="hidden" name="rt_speed" value="<?= $s['rt_speed'] ?? 20 ?>">
+            <input type="hidden" name="rt_color" value="<?= $s['rt_color'] ?? '#ffffff' ?>">
+            <input type="hidden" name="dt_font" value="<?= $s['dt_font'] ?? 'monospace' ?>">
+            <input type="hidden" name="dt_size" value="<?= $s['dt_size'] ?? 28 ?>">
+            <input type="hidden" name="dt_jam_type" value="<?= $s['dt_jam_type'] ?? 'HH:MM:SS' ?>">
+            <input type="hidden" name="dt_color" value="<?= $s['dt_color'] ?? '#ffffff' ?>">
+            <input type="hidden" name="bar_bg_type" value="<?= $s['bar_bg_type'] ?? 'solid' ?>">
+            <input type="hidden" name="bar_bg_color" value="<?= $s['bar_bg_color'] ?? '#000000' ?>">
+            <input type="hidden" name="bar_bg_blur" value="<?= $s['bar_bg_blur'] ?? 8 ?>">
+            <button type="submit" class="btn-submit">Simpan</button>
         </form>
     </div>
 </div>
 
 <script>
-function switchDsTab(name, btn) {
-    document.querySelectorAll('.ds-panel').forEach(p => p.style.display = 'none');
-    document.querySelectorAll('.ds-tab').forEach(b => {
-        b.style.background = 'none'; b.style.color = '#666';
-    });
-    document.getElementById('ds-' + name).style.display = 'block';
-    btn.style.background = '#1e3a5f'; btn.style.color = '#fff';
-}
-function toggleBgOpts(prefix, val) {
+function toggleBgOpts(val) {
     const show = ['solid','blur','gradient'].includes(val);
-    document.getElementById(prefix + '_bg_opts').style.display = show ? 'grid' : 'none';
-}
-function syncColor(name, val) {
-    const el = document.querySelector('[name="' + name + '"]');
-    if (el && /^#[0-9a-fA-F]{6}$/.test(val)) el.value = val;
+    document.getElementById('bar_bg_opts').style.display = show ? 'grid' : 'none';
 }
 </script>
 

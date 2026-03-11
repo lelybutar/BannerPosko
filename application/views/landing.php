@@ -29,7 +29,6 @@ $bar_bg_blur      = $s['bar_bg_blur']      ?? '8';
 
 $slider_interval  = (int)($s['slider_interval'] ?? 5);
 
-// Generate CSS background untuk bottom bar
 function bg_css($type, $color, $blur) {
     $blur = (int)$blur;
     switch ($type) {
@@ -148,41 +147,9 @@ $bar_css = bg_css($bar_bg_type, $bar_bg_color, $bar_bg_blur);
             from { transform: translateX(100vw); }
             to   { transform: translateX(-100%); }
         }
-
-        /* Fullscreen prompt overlay */
-        #fs-prompt {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.92);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            cursor: pointer;
-        }
-        #fs-prompt h2 {
-            color: #fff;
-            font-family: sans-serif;
-            font-size: 32px;
-            margin-bottom: 16px;
-        }
-        #fs-prompt p {
-            color: #aaa;
-            font-family: sans-serif;
-            font-size: 16px;
-        }
-        #fs-prompt .fs-icon { font-size: 64px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
-
-<!-- Fullscreen prompt — klik untuk masuk fullscreen -->
-<div id="fs-prompt" onclick="enterFullscreen()">
-    <div class="fs-icon">⛶</div>
-    <h2>Klik untuk Memulai</h2>
-    <p>Layar akan otomatis fullscreen</p>
-</div>
 
 <div class="banner-container" id="bannerContainer">
     <?php if (empty($banners)): ?>
@@ -223,41 +190,6 @@ $bar_css = bg_css($bar_bg_type, $bar_bg_color, $bar_bg_blur);
 <script>
     const SLIDER_INTERVAL = <?= $slider_interval * 1000 ?>;
     const JAM_TYPE = '<?= $dt_jam_type ?>';
-
-    // ── Fullscreen ───────────────────────────────────────
-    function enterFullscreen() {
-        const el = document.documentElement;
-        const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-        if (req) req.call(el);
-        document.getElementById('fs-prompt').style.display = 'none';
-        document.body.requestPointerLock && document.body.requestPointerLock();
-    }
-
-    // Auto fullscreen jika sudah pernah dibuka (tidak ada interaksi pertama kali)
-    document.addEventListener('DOMContentLoaded', function() {
-        // Coba auto fullscreen tanpa klik (berhasil di beberapa browser)
-        setTimeout(function() {
-            const el = document.documentElement;
-            const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-            if (req) {
-                req.call(el).then(function() {
-                    document.getElementById('fs-prompt').style.display = 'none';
-                }).catch(function() {
-                    // Gagal auto — tampilkan prompt klik
-                    document.getElementById('fs-prompt').style.display = 'flex';
-                });
-            }
-        }, 300);
-    });
-
-    // Kalau fullscreen keluar, sembunyikan prompt
-    document.addEventListener('fullscreenchange', function() {
-        if (!document.fullscreenElement) {
-            document.getElementById('fs-prompt').style.display = 'flex';
-        } else {
-            document.getElementById('fs-prompt').style.display = 'none';
-        }
-    });
 
     // ── Clock ─────────────────────────────────────────────
     function updateClock() {

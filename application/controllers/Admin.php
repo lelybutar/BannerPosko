@@ -136,9 +136,10 @@ class Admin extends CI_Controller {
         }
 
         $this->db->update('banner', [
-            'jadwal_mulai'   => $jadwal_mulai,
-            'jadwal_selesai' => $jadwal_selesai,
-            'status'         => $status,
+            'jadwal_mulai'    => $jadwal_mulai,
+            'jadwal_selesai'  => $jadwal_selesai,
+            'status'          => $status,
+            'manual_override' => 0, // reset — serahkan ke auto scheduler
         ], ['id' => $id]);
         $this->session->set_flashdata('success', 'Jadwal berhasil diupdate!');
         redirect('Admin');
@@ -212,6 +213,23 @@ class Admin extends CI_Controller {
             }
         }
 
+        redirect('Admin');
+    }
+
+    public function toggle_status($id) {
+        $banner = $this->db->get_where('banner', ['id' => $id])->row();
+        if (!$banner) redirect('Admin');
+
+        $status_baru = ($banner->status === 'aktif') ? 'nonaktif' : 'aktif';
+
+        // Set manual_override = 1 supaya auto scheduler tidak override
+        // Jadwal lama tetap tersimpan
+        $this->db->where('id', $id)->update('banner', [
+            'status'          => $status_baru,
+            'manual_override' => 1,
+            'updated_at'      => date('Y-m-d H:i:s'),
+        ]);
+        $this->session->set_flashdata('success', 'Banner berhasil di' . $status_baru . 'kan.');
         redirect('Admin');
     }
 
@@ -339,7 +357,11 @@ class Admin extends CI_Controller {
             $val = $this->input->post($f);
             if ($val !== FALSE) $this->_save_setting($f, $val);
         }
-        $this->session->set_flashdata('success', 'Pengaturan tampilan berhasil disimpan!');
+        // Simpan running text jika dikirim dari modal RT
+        $rt = $this->input->post('running_text');
+        if ($rt !== FALSE) $this->_save_setting('running_text', $rt);
+
+        $this->session->set_flashdata('success', 'Pengaturan berhasil disimpan!');
         redirect('Admin');
     }
 }

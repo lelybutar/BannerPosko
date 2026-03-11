@@ -1,6 +1,5 @@
 <!-- pengaturan.php -->
 
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -26,41 +25,15 @@
         .setting-body { padding: 24px; }
 
         /* ── FOTO PROFIL ── */
-        .foto-wrap {
-            display: flex; align-items: center; gap: 20px;
-            padding: 20px; background: #f9fafb;
-            border-radius: 12px; margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-        .foto-ava {
-            width: 80px; height: 80px; border-radius: 50%;
-            object-fit: cover; flex-shrink: 0;
-            border: 3px solid #e5e7eb;
-        }
-        .foto-ava-init {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: var(--blue); color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px; font-weight: 700; flex-shrink: 0;
-            border: 3px solid #e5e7eb;
-        }
+        .foto-wrap { display: flex; align-items: center; gap: 20px; padding: 20px; background: #f9fafb; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .foto-ava { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid #e5e7eb; }
+        .foto-ava-init { width: 80px; height: 80px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; flex-shrink: 0; border: 3px solid #e5e7eb; }
         .foto-actions { display: flex; flex-direction: column; gap: 8px; }
         .foto-info-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
         .foto-info-role { font-size: 12px; color: var(--text-muted); }
-        .btn-foto-upload {
-            padding: 7px 14px; background: var(--blue); color: #fff;
-            border: none; border-radius: 7px; font-size: 12px; font-weight: 600;
-            font-family: 'DM Sans', sans-serif; cursor: pointer;
-            transition: background 0.15s; display: inline-flex; align-items: center; gap: 6px;
-        }
+        .btn-foto-upload { padding: 7px 14px; background: var(--blue); color: #fff; border: none; border-radius: 7px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.15s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-foto-upload:hover { background: var(--blue-dark); }
-        .btn-foto-hapus {
-            padding: 7px 14px; background: #fef2f2; color: var(--red);
-            border: 1px solid #fecaca; border-radius: 7px; font-size: 12px; font-weight: 600;
-            font-family: 'DM Sans', sans-serif; cursor: pointer;
-            transition: background 0.15s; display: inline-flex; align-items: center; gap: 6px;
-            text-decoration: none;
-        }
+        .btn-foto-hapus { padding: 7px 14px; background: #fef2f2; color: var(--red); border: 1px solid #fecaca; border-radius: 7px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.15s; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
         .btn-foto-hapus:hover { background: #fee2e2; }
         .foto-hint { font-size: 11px; color: var(--text-muted); }
 
@@ -87,25 +60,29 @@
     </div>
     <nav class="sidebar-nav">
         <div class="nav-label">Menu</div>
-        <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Dashboard</a>
+        <a class="nav-link" href="<?= base_url('Admin') ?>">
+            <span class="icon"></span> Dashboard
+        </a>
 
-        <div class="nav-label" style="margin-top:10px;">Landing Page</div>
-        <div class="nav-accordion-header" onclick="toggleAccordion()">
-            <div class="left"><span class="icon"></span> Update Landing Page</div>
-            <span class="accordion-arrow" id="accordionArrow">›</span>
+        <!-- Tampilan -->
+        <div class="nav-label" style="margin-top:10px;">Tampilan</div>
+        <div class="nav-accordion-header" onclick="toggleAccordion('displaySubmenu', 'arrowDisplay')">
+            <div class="left"><span class="icon"></span> Display Settings</div>
+            <span class="accordion-arrow" id="arrowDisplay">›</span>
         </div>
-        <div class="nav-submenu" id="landingSubmenu">
+        <div class="nav-submenu" id="displaySubmenu">
+            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Running Text</a>
+            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Jam & Tanggal</a>
+            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Bottom Bar</a>
+            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Slider Interval</a>
             <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Update Media</a>
-            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Update Penjadwalan</a>
-            <a class="nav-link" href="<?= base_url('Admin') ?>"><span class="icon"></span> Update Running Text</a>
         </div>
 
-        <?php if ($this->session->userdata('role') === 'superadmin'): ?>
-        <div class="nav-label" style="margin-top:10px;">Manajemen</div>
-        <a class="nav-link" href="<?= base_url('Admin/kelola_admin') ?>"><span class="icon"></span> Kelola Admin</a>
-        <?php endif; ?>
+        <!-- Lainnya -->
         <div class="nav-label" style="margin-top:10px;">Lainnya</div>
-        <a class="nav-link active" href="<?= base_url('Admin/pengaturan') ?>"><span class="icon"></span> Pengaturan</a>
+        <a class="nav-link active" href="<?= base_url('Admin/pengaturan') ?>">
+            <span class="icon"></span> Profile Settings
+        </a>
     </nav>
     <div class="sidebar-footer">
         <div class="user-box">
@@ -118,9 +95,6 @@
             <div>
                 <div class="user-name"><?= $user->nama_tampilan ?: $this->session->userdata('username') ?></div>
                 <div class="user-role">Administrator</div>
-                <?php if ($this->session->userdata('role') === 'superadmin'): ?>
-                    <div class="user-role-chip">Superadmin</div>
-                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -130,7 +104,7 @@
 <div class="main" id="main">
     <div class="navbar">
         <button class="hamburger" onclick="toggleSidebar()">☰</button>
-        <div class="navbar-breadcrumb">BannerPosko › <span>Pengaturan</span></div>
+        <div class="navbar-breadcrumb">BannerPosko > <span>Profile Settings</span></div>
         <div class="navbar-right">
             <a href="<?= base_url('Auth/logout') ?>" class="navbar-logout">Logout</a>
             <div class="navbar-ava">
@@ -145,7 +119,7 @@
     </div>
 
     <div class="content">
-        <div class="page-title">Pengaturan</div>
+        <div class="page-title">Profile Settings</div>
         <div class="page-sub">Kelola akun dan profil kamu</div>
 
         <?php
@@ -170,7 +144,7 @@
 
             <div class="setting-card">
                 <div class="setting-header">
-                    <div class="setting-title"> Ganti Password</div>
+                    <div class="setting-title">Ganti Password</div>
                     <div class="setting-desc">Ubah password login akun kamu</div>
                 </div>
                 <div class="setting-body">
@@ -234,9 +208,7 @@
 
                             <div>
                                 <div class="foto-info-name"><?= $user->nama_tampilan ?: $this->session->userdata('username') ?></div>
-                                <div class="foto-info-role" style="margin-bottom:10px;">
-                                    <?= $this->session->userdata('role') === 'superadmin' ? 'Superadmin' : '● Admin' ?>
-                                </div>
+                                <div class="foto-info-role" style="margin-bottom:10px;">Administrator</div>
                                 <div class="foto-actions">
                                     <button type="button" class="btn-foto-upload" onclick="document.getElementById('inputFoto').click()">
                                         Ganti Foto
@@ -256,7 +228,6 @@
                         <input type="file" id="inputFoto" name="foto_profil" accept="image/*"
                                style="display:none" onchange="previewFoto(this)">
 
-                        <!-- Nama Tampilan -->
                         <div class="form-group">
                             <label class="form-label">Username</label>
                             <input type="text" class="form-input"
@@ -281,9 +252,7 @@
     </div><!-- /content -->
 </div><!-- /main -->
 
-<script>
-    const BASE_URL = '<?= base_url() ?>';
-</script>
+<script>const BASE_URL = '<?= base_url() ?>';</script>
 <script src="<?= base_url('assets/js/admin.js') ?>"></script>
 <script>
     function switchTab(name, btn) {
@@ -333,14 +302,13 @@
         label.textContent = m.txt; label.style.color = m.bg;
     }
 
-    // Preview foto sebelum upload
     function previewFoto(input) {
         if (!input.files[0]) return;
         const reader = new FileReader();
         reader.onload = function(e) {
-            const preview  = document.getElementById('fotoPreview');
-            const inisial  = document.getElementById('fotoInisial');
-            preview.src    = e.target.result;
+            const preview = document.getElementById('fotoPreview');
+            const inisial = document.getElementById('fotoInisial');
+            preview.src = e.target.result;
             preview.style.display = '';
             if (inisial) inisial.style.display = 'none';
         };

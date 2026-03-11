@@ -12,28 +12,31 @@
             <span class="icon"></span> Dashboard
         </a>
 
-        <div class="nav-label" style="margin-top:10px;">Landing Page</div>
-        <div class="nav-accordion-header" onclick="toggleAccordion()">
-            <div class="left"><span class="icon"></span> Update Landing Page</div>
-            <span class="accordion-arrow" id="accordionArrow">></span>
+        <!-- Tampilan -->
+        <div class="nav-label" style="margin-top:10px;">Tampilan</div>
+        <div class="nav-accordion-header" onclick="toggleAccordion('displaySubmenu', 'arrowDisplay')">
+            <div class="left"><span class="icon"></span> Display Settings</div>
+            <span class="accordion-arrow" id="arrowDisplay">›</span>
         </div>
-        <div class="nav-submenu" id="landingSubmenu">
+        <div class="nav-submenu" id="displaySubmenu">
+            <a class="nav-link" href="#" onclick="openModal('modalDisplayRT'); return false;">
+                <span class="icon"></span> Running Text
+            </a>
+            <a class="nav-link" href="#" onclick="openModal('modalDisplayDT'); return false;">
+                <span class="icon"></span> Jam & Tanggal
+            </a>
+            <a class="nav-link" href="#" onclick="openModal('modalDisplayBar'); return false;">
+                <span class="icon"></span> Bottom Bar
+            </a>
+            <a class="nav-link" href="#" onclick="openModal('modalDisplaySlider'); return false;">
+                <span class="icon"></span> Slider Interval
+            </a>
             <a class="nav-link" href="#" onclick="openModal('modalUpdateGambar'); return false;">
                 <span class="icon"></span> Update Media
             </a>
-            <a class="nav-link" href="#" onclick="openModal('modalJadwalBaru'); return false;">
-                <span class="icon"></span> Update Penjadwalan
-            </a>
-            <a class="nav-link" href="#" onclick="openModal('modalRunningText'); return false;">
-                <span class="icon"></span> Update Running Text
-            </a>
         </div>
-        <div class="nav-label" style="margin-top:10px;">Tampilan</div>
-        <button class="nav-link" onclick="openModal('modalDisplaySettings')" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;">
-            <span class="icon"></span> Display Settings
-        </button>
-        
 
+        <!-- Lainnya -->
         <div class="nav-label" style="margin-top:10px;">Lainnya</div>
         <a class="nav-link <?= (uri_string() == 'Admin/pengaturan') ? 'active' : '' ?>"
            href="<?= base_url('Admin/pengaturan') ?>">
