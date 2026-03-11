@@ -331,9 +331,7 @@ class Admin extends CI_Controller {
     public function simpan_display_settings() {
         $fields = [
             'rt_font', 'rt_size', 'rt_speed', 'rt_color',
-            'rt_bg_type', 'rt_bg_color', 'rt_bg_blur',
             'dt_font', 'dt_size', 'dt_jam_type', 'dt_color',
-            'dt_bg_type', 'dt_bg_color', 'dt_bg_blur',
             'bar_bg_type', 'bar_bg_color', 'bar_bg_blur',
             'slider_interval',
         ];

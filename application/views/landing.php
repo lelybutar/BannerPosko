@@ -18,17 +18,10 @@ $rt_font          = $s['rt_font']          ?? 'sans-serif';
 $rt_size          = $s['rt_size']          ?? '24';
 $rt_speed         = $s['rt_speed']         ?? '20';
 $rt_color         = $s['rt_color']         ?? '#ffffff';
-$rt_bg_type       = $s['rt_bg_type']       ?? 'transparent';
-$rt_bg_color      = $s['rt_bg_color']      ?? '#000000';
-$rt_bg_blur       = $s['rt_bg_blur']       ?? '0';
-
 $dt_font          = $s['dt_font']          ?? 'monospace';
 $dt_size          = $s['dt_size']          ?? '28';
 $dt_jam_type      = $s['dt_jam_type']      ?? 'HH:MM:SS';
 $dt_color         = $s['dt_color']         ?? '#ffffff';
-$dt_bg_type       = $s['dt_bg_type']       ?? 'transparent';
-$dt_bg_color      = $s['dt_bg_color']      ?? '#000000';
-$dt_bg_blur       = $s['dt_bg_blur']       ?? '0';
 
 $bar_bg_type      = $s['bar_bg_type']      ?? 'solid';
 $bar_bg_color     = $s['bar_bg_color']     ?? '#000000';
@@ -49,8 +42,6 @@ function bg_css($type, $color, $blur) {
 }
 
 $bar_css = bg_css($bar_bg_type, $bar_bg_color, $bar_bg_blur);
-$rt_bg_css = bg_css($rt_bg_type, $rt_bg_color, $rt_bg_blur);
-$dt_bg_css = bg_css($dt_bg_type, $dt_bg_color, $dt_bg_blur);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -70,7 +61,7 @@ $dt_bg_css = bg_css($dt_bg_type, $dt_bg_color, $dt_bg_blur);
 
         .banner-container {
             width: 100vw;
-            height: calc(100vh - 70px);
+            height: 100vh;
             position: relative;
             overflow: hidden;
         }
@@ -95,16 +86,17 @@ $dt_bg_css = bg_css($dt_bg_type, $dt_bg_color, $dt_bg_blur);
             font-family: monospace; font-size: 60px;
         }
 
-        /* Bottom Bar */
+        /* Bottom Bar — absolute di atas banner */
         .bottom-bar {
             position: absolute;
             bottom: 0; left: 0;
-            width: 100vw;
+            width: 100%;
             height: 70px;
             <?= $bar_css ?>
             display: flex;
             align-items: center;
             overflow: hidden;
+            z-index: 10;
         }
 
         /* Datetime Box */
@@ -113,7 +105,7 @@ $dt_bg_css = bg_css($dt_bg_type, $dt_bg_color, $dt_bg_blur);
             width: 220px;
             padding: 0 16px;
             border-right: 2px solid rgba(255,255,255,0.15);
-            <?= $dt_bg_css ?>
+            background: transparent;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -142,7 +134,7 @@ $dt_bg_css = bg_css($dt_bg_type, $dt_bg_color, $dt_bg_blur);
             height: 100%;
             display: flex;
             align-items: center;
-            <?= $rt_bg_css ?>
+            background: transparent;
         }
         .running-text {
             display: inline-block;
@@ -214,7 +206,6 @@ $dt_bg_css = bg_css($dt_bg_type, $dt_bg_color, $dt_bg_blur);
         </div>
         <?php endforeach; ?>
     <?php endif; ?>
-</div>
 
 <div class="bottom-bar">
     <div class="datetime-box">
@@ -226,6 +217,7 @@ $dt_bg_css = bg_css($dt_bg_type, $dt_bg_color, $dt_bg_blur);
             <?= isset($running_text) ? htmlspecialchars($running_text) : 'Selamat Datang di BannerPosko' ?>
         </span>
     </div>
+</div>
 </div>
 
 <script>

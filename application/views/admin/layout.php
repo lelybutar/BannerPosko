@@ -383,26 +383,7 @@
                         <input type="text" id="rt_color_hex" class="form-input" value="<?= $s['rt_color'] ?? '#ffffff' ?>" style="width:120px;" oninput="syncColor('rt_color',this.value)">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Background Running Text</label>
-                    <select name="rt_bg_type" class="form-select" onchange="toggleBgOpts('rt',this.value)">
-                        <?php $rt_bg = $s['rt_bg_type'] ?? 'transparent'; ?>
-                        <option value="transparent" <?= $rt_bg==="transparent"?"selected":"" ?>>Transparan</option>
-                        <option value="solid" <?= $rt_bg==="solid"?"selected":"" ?>>Warna Solid</option>
-                        <option value="blur" <?= $rt_bg==="blur"?"selected":"" ?>>Blur / Frosted Glass</option>
-                        <option value="gradient" <?= $rt_bg==="gradient"?"selected":"" ?>>Gradient</option>
-                    </select>
-                </div>
-                <div id="rt_bg_opts" style="display:<?= in_array($s['rt_bg_type'] ?? '', ['solid','blur','gradient']) ? 'grid' : 'none' ?>;grid-template-columns:1fr 1fr;gap:12px;">
-                    <div class="form-group">
-                        <label class="form-label">Warna BG</label>
-                        <input type="color" name="rt_bg_color" value="<?= $s['rt_bg_color'] ?? '#000000' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
-                    </div>
-                    <div class="form-group" id="rt_blur_wrap">
-                        <label class="form-label">Intensitas Blur (px)</label>
-                        <input type="number" name="rt_bg_blur" class="form-input" value="<?= $s['rt_bg_blur'] ?? 8 ?>" min="0" max="40">
-                    </div>
-                </div>
+
             </div>
 
             <!-- ── TAB: DATETIME ── -->
@@ -438,26 +419,7 @@
                         <input type="color" name="dt_color" value="<?= $s['dt_color'] ?? '#ffffff' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Background Jam</label>
-                    <select name="dt_bg_type" class="form-select" onchange="toggleBgOpts('dt',this.value)">
-                        <?php $dt_bg = $s['dt_bg_type'] ?? 'transparent'; ?>
-                        <option value="transparent" <?= $dt_bg==="transparent"?"selected":"" ?>>Transparan</option>
-                        <option value="solid" <?= $dt_bg==="solid"?"selected":"" ?>>Warna Solid</option>
-                        <option value="blur" <?= $dt_bg==="blur"?"selected":"" ?>>Blur / Frosted Glass</option>
-                        <option value="gradient" <?= $dt_bg==="gradient"?"selected":"" ?>>Gradient</option>
-                    </select>
-                </div>
-                <div id="dt_bg_opts" style="display:<?= in_array($s['dt_bg_type'] ?? '', ['solid','blur','gradient']) ? 'grid' : 'none' ?>;grid-template-columns:1fr 1fr;gap:12px;">
-                    <div class="form-group">
-                        <label class="form-label">Warna BG</label>
-                        <input type="color" name="dt_bg_color" value="<?= $s['dt_bg_color'] ?? '#000000' ?>" style="width:100%;height:36px;border:none;border-radius:6px;cursor:pointer;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Intensitas Blur (px)</label>
-                        <input type="number" name="dt_bg_blur" class="form-input" value="<?= $s['dt_bg_blur'] ?? 8 ?>" min="0" max="40">
-                    </div>
-                </div>
+
             </div>
 
             <!-- ── TAB: BOTTOM BAR ── -->

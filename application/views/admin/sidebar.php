@@ -28,11 +28,13 @@
                 <span class="icon"></span> Update Running Text
             </a>
         </div>
-
-        <div class="nav-label" style="margin-top:10px;">Lainnya</div>
+        <div class="nav-label" style="margin-top:10px;">Tampilan</div>
         <button class="nav-link" onclick="openModal('modalDisplaySettings')" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;">
             <span class="icon"></span> Display Settings
         </button>
+        
+
+        <div class="nav-label" style="margin-top:10px;">Lainnya</div>
         <a class="nav-link <?= (uri_string() == 'Admin/pengaturan') ? 'active' : '' ?>"
            href="<?= base_url('Admin/pengaturan') ?>">
             <span class="icon"></span> Pengaturan
