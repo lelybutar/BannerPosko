@@ -50,10 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'Landing';
-$route['admin'] = 'Admin/index';
-$route['login'] = 'Auth/index';
-$route['login/proses'] = 'Auth/login';
-$route['logout'] = 'Auth/logout';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['preview/(:num)'] = 'Landing/preview/$1';
+$route['Admin/simpan_display_settings'] = 'Admin/simpan_display_settings';

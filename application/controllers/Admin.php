@@ -16,14 +16,32 @@ class Admin extends CI_Controller {
         $this->db->query("UPDATE banner SET status = 'nonaktif' WHERE status = 'aktif' AND jadwal_selesai IS NOT NULL AND jadwal_selesai < '$now'");
     }
 
+    // Helper: ambil semua setting sekaligus
+    private function _get_settings() {
+        $rows = $this->db->get('setting')->result();
+        $s = [];
+        foreach ($rows as $r) $s[$r->kunci] = $r->nilai;
+        return $s;
+    }
+
+    // Helper: upsert setting (update jika ada, insert jika belum)
+    private function _save_setting($kunci, $nilai) {
+        $exists = $this->db->get_where('setting', ['kunci' => $kunci])->num_rows();
+        if ($exists) {
+            $this->db->where('kunci', $kunci)->update('setting', ['nilai' => $nilai]);
+        } else {
+            $this->db->insert('setting', ['kunci' => $kunci, 'nilai' => $nilai]);
+        }
+    }
+
     public function index() {
         $data['banner_aktif']    = $this->db->get_where('banner', ['status' => 'aktif'])->num_rows();
         $data['banner_nonaktif'] = $this->db->get_where('banner', ['status' => 'nonaktif'])->num_rows();
         $last = $this->db->order_by('updated_at', 'DESC')->limit(1)->get('banner')->row();
         $data['terakhir_update'] = $last ? $last->updated_at : null;
         $data['banners'] = $this->db->order_by('updated_at', 'DESC')->get('banner')->result();
-        $rt = $this->db->get_where('setting', ['kunci' => 'running_text'])->row();
-        $data['running_text'] = $rt ? $rt->nilai : '';
+        $data['settings'] = $this->_get_settings();
+        $data['running_text'] = $data['settings']['running_text'] ?? '';
         $this->load->view('admin/layout', $data);
     }
 
@@ -305,8 +323,25 @@ class Admin extends CI_Controller {
 
     public function simpan_running_text() {
         $teks = $this->input->post('running_text');
-        $this->db->where('kunci', 'running_text')->update('setting', ['nilai' => $teks]);
+        $this->_save_setting('running_text', $teks);
         $this->session->set_flashdata('success', 'Running text berhasil diupdate!');
+        redirect('Admin');
+    }
+
+    public function simpan_display_settings() {
+        $fields = [
+            'rt_font', 'rt_size', 'rt_speed', 'rt_color',
+            'rt_bg_type', 'rt_bg_color', 'rt_bg_blur',
+            'dt_font', 'dt_size', 'dt_jam_type', 'dt_color',
+            'dt_bg_type', 'dt_bg_color', 'dt_bg_blur',
+            'bar_bg_type', 'bar_bg_color', 'bar_bg_blur',
+            'slider_interval',
+        ];
+        foreach ($fields as $f) {
+            $val = $this->input->post($f);
+            if ($val !== FALSE) $this->_save_setting($f, $val);
+        }
+        $this->session->set_flashdata('success', 'Pengaturan tampilan berhasil disimpan!');
         redirect('Admin');
     }
 }

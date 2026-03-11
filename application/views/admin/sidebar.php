@@ -30,6 +30,9 @@
         </div>
 
         <div class="nav-label" style="margin-top:10px;">Lainnya</div>
+        <button class="nav-link" onclick="openModal('modalDisplaySettings')" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;">
+            <span class="icon"></span> Display Settings
+        </button>
         <a class="nav-link <?= (uri_string() == 'Admin/pengaturan') ? 'active' : '' ?>"
            href="<?= base_url('Admin/pengaturan') ?>">
             <span class="icon"></span> Pengaturan
